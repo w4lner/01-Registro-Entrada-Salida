@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import EmployeeForm from './EmployeeForm';
 import SearchBar from './SearchBar';
 import EmployeeList from './EmployeeList';
+import ExportToExcel from './ExportToExcel';
 
 const EmployeeCheckInSystem = () => {
     const [employees, setEmployees] = useState(() => {
@@ -62,6 +63,7 @@ const EmployeeCheckInSystem = () => {
             />
 
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <ExportToExcel employees={filteredEmployees} />
 
             <EmployeeList
                 employees={currentEmployees}
