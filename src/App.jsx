@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import EmployeeCheckInSystem from './EmployeeCheckInSystem';
 
 function App() {
