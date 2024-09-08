@@ -57,7 +57,7 @@ const EmployeeForm = ({ addEmployee }) => {
                 name="checkOut"
                 value={employee.checkOut}
                 onChange={handleChange}
-                required
+
             />
             <button type="submit">Registrar</button>
         </form>
