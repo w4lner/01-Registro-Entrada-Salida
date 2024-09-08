@@ -4,6 +4,10 @@ body {
   font-family: Arial, sans-serif;
 
 }
+.input-group.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 .App {
   display: flex;

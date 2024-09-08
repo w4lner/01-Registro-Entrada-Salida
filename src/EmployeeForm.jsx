@@ -16,7 +16,7 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
     }, [isEditing, editingEmployee]);
 
     const getCurrentTime = () => {
-        return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); // Formato 24 horas sin segundos
+        return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     };
 
     useEffect(() => {
@@ -40,51 +40,60 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
         } else {
             addEmployee(employee);
         }
-        setEmployee({ name: '', ci: '', department: '', checkIn: getCurrentTime(), checkOut: '' }); // Resetear el formulario
+        setEmployee({ name: '', ci: '', department: '', checkIn: getCurrentTime(), checkOut: '' });
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="name"
-                value={employee.name}
-                onChange={handleChange}
-                placeholder="Nombre y Apellidos"
-                required
-                readOnly={isEditing}
-            />
-            <input
-                type="text"
-                name="ci"
-                value={employee.ci}
-                onChange={handleChange}
-                placeholder="CI"
-                required
-                readOnly={isEditing}
-            />
-            <input
-                type="text"
-                name="department"
-                value={employee.department}
-                onChange={handleChange}
-                placeholder="Departamento"
-                required
-                readOnly={isEditing}
-            />
-            <input
-                type="text"
-                name="checkIn"
-                value={employee.checkIn}
-                readOnly
-            />
-            <input
-                type="time"
-                name="checkOut"
-                value={employee.checkOut}
-                onChange={handleChange}
-
-            />
+            <div className={`input-group ${isEditing ? 'disabled' : ''}`}>
+                <input
+                    type="text"
+                    name="name"
+                    value={employee.name}
+                    onChange={handleChange}
+                    placeholder="Nombre y Apellidos"
+                    required
+                    readOnly={isEditing}
+                />
+            </div>
+            <div className={`input-group ${isEditing ? 'disabled' : ''}`}>
+                <input
+                    type="text"
+                    name="ci"
+                    value={employee.ci}
+                    onChange={handleChange}
+                    placeholder="CI"
+                    required
+                    readOnly={isEditing}
+                />
+            </div>
+            <div className={`input-group ${isEditing ? 'disabled' : ''}`}>
+                <input
+                    type="text"
+                    name="department"
+                    value={employee.department}
+                    onChange={handleChange}
+                    placeholder="Departamento"
+                    required
+                    readOnly={isEditing}
+                />
+            </div>
+            <div className="input-group">
+                <input
+                    type="text"
+                    name="checkIn"
+                    value={employee.checkIn}
+                    readOnly
+                />
+            </div>
+            <div className="input-group">
+                <input
+                    type="time"
+                    name="checkOut"
+                    value={employee.checkOut}
+                    onChange={handleChange}
+                />
+            </div>
             <button type="submit">{isEditing ? 'Actualizar' : 'Registrar'}</button>
         </form>
     );
