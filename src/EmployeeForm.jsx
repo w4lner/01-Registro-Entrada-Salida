@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EmployeeForm = ({ addEmployee }) => {
     const [employee, setEmployee] = useState({
@@ -9,6 +9,18 @@ const EmployeeForm = ({ addEmployee }) => {
         checkOut: ''
     });
 
+    const getCurrentTime = () => {
+        return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); // Formato 24 horas sin segundos
+    };
+
+    useEffect(() => {
+        const currentTime = getCurrentTime();
+        setEmployee((prevEmployee) => ({
+            ...prevEmployee,
+            checkIn: currentTime
+        }));
+    }, []);
+
     const handleChange = (e) => {
         setEmployee({ ...employee, [e.target.name]: e.target.value });
     };
@@ -16,7 +28,7 @@ const EmployeeForm = ({ addEmployee }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         addEmployee(employee);
-        setEmployee({ name: '', ci: '', department: '', checkIn: '', checkOut: '' }); // Resetear formulario
+        setEmployee({ name: '', ci: '', department: '', checkIn: getCurrentTime(), checkOut: '' }); // Resetear el formulario con nueva hora de entrada
     };
 
     return (
@@ -46,18 +58,17 @@ const EmployeeForm = ({ addEmployee }) => {
                 required
             />
             <input
-                type="time"
+                type="text"
                 name="checkIn"
                 value={employee.checkIn}
-                onChange={handleChange}
-                required
+                readOnly
             />
             <input
                 type="time"
                 name="checkOut"
                 value={employee.checkOut}
                 onChange={handleChange}
-
+                required
             />
             <button type="submit">Registrar</button>
         </form>
