@@ -34,16 +34,21 @@ const EmployeeCheckInSystem = () => {
         setEditingEmployeeIndex(null);
     };
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const getOriginalIndex = (filteredIndex) => {
+        const filteredEmployee = filteredEmployees[filteredIndex];
+        return employees.findIndex(emp => emp.ci === filteredEmployee.ci);
+    };
+
     const filteredEmployees = employees.filter((employee) =>
         employee.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const startIndex = (currentPage - 1) * employeesPerPage;
-    const paginatedEmployees = filteredEmployees.slice(startIndex, startIndex + employeesPerPage);
-
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
+    const currentEmployees = filteredEmployees.slice(startIndex, startIndex + employeesPerPage);
 
     return (
         <div className="container">
@@ -59,12 +64,16 @@ const EmployeeCheckInSystem = () => {
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
             <EmployeeList
-                employees={paginatedEmployees}
+                employees={currentEmployees}
                 totalEmployees={filteredEmployees.length}
                 employeesPerPage={employeesPerPage}
                 currentPage={currentPage}
                 handlePageChange={handlePageChange}
-                handleEdit={handleEdit}
+                handleEdit={(filteredIndex) => {
+
+                    const originalIndex = getOriginalIndex(filteredIndex);
+                    handleEdit(originalIndex);
+                }}
                 startIndex={startIndex}
             />
         </div>
