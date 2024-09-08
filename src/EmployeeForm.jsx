@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const EmployeeForm = ({ addEmployee }) => {
+const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing }) => {
     const [employee, setEmployee] = useState({
         name: '',
         ci: '',
@@ -9,17 +9,28 @@ const EmployeeForm = ({ addEmployee }) => {
         checkOut: ''
     });
 
+    // Al montar el componente, si estamos editando un empleado, cargamos sus datos
+    useEffect(() => {
+        if (isEditing && editingEmployee) {
+            setEmployee(editingEmployee);
+        }
+    }, [isEditing, editingEmployee]);
+
+    // Función para obtener la hora actual en formato 24 horas
     const getCurrentTime = () => {
         return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); // Formato 24 horas sin segundos
     };
 
+    // Al montar el componente, establecer la hora de entrada automáticamente si no estamos editando
     useEffect(() => {
-        const currentTime = getCurrentTime();
-        setEmployee((prevEmployee) => ({
-            ...prevEmployee,
-            checkIn: currentTime
-        }));
-    }, []);
+        if (!isEditing) {
+            const currentTime = getCurrentTime();
+            setEmployee((prevEmployee) => ({
+                ...prevEmployee,
+                checkIn: currentTime
+            }));
+        }
+    }, [isEditing]);
 
     const handleChange = (e) => {
         setEmployee({ ...employee, [e.target.name]: e.target.value });
@@ -27,8 +38,12 @@ const EmployeeForm = ({ addEmployee }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addEmployee(employee);
-        setEmployee({ name: '', ci: '', department: '', checkIn: getCurrentTime(), checkOut: '' }); // Resetear el formulario con nueva hora de entrada
+        if (isEditing) {
+            updateEmployee(employee);
+        } else {
+            addEmployee(employee);
+        }
+        setEmployee({ name: '', ci: '', department: '', checkIn: getCurrentTime(), checkOut: '' }); // Resetear el formulario
     };
 
     return (
@@ -40,6 +55,7 @@ const EmployeeForm = ({ addEmployee }) => {
                 onChange={handleChange}
                 placeholder="Nombre y Apellidos"
                 required
+                readOnly={isEditing} // No permitir modificar nombre mientras se edita
             />
             <input
                 type="text"
@@ -48,6 +64,7 @@ const EmployeeForm = ({ addEmployee }) => {
                 onChange={handleChange}
                 placeholder="CI"
                 required
+                readOnly={isEditing} // No permitir modificar CI mientras se edita
             />
             <input
                 type="text"
@@ -56,12 +73,13 @@ const EmployeeForm = ({ addEmployee }) => {
                 onChange={handleChange}
                 placeholder="Departamento"
                 required
+                readOnly={isEditing} // No permitir modificar Departamento mientras se edita
             />
             <input
                 type="text"
                 name="checkIn"
                 value={employee.checkIn}
-                readOnly
+                readOnly // El campo de entrada de hora sigue siendo no editable
             />
             <input
                 type="time"
@@ -70,7 +88,7 @@ const EmployeeForm = ({ addEmployee }) => {
                 onChange={handleChange}
 
             />
-            <button type="submit">Registrar</button>
+            <button type="submit">{isEditing ? 'Actualizar' : 'Registrar'}</button>
         </form>
     );
 };
