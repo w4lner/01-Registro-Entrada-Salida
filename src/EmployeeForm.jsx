@@ -9,19 +9,16 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
         checkOut: ''
     });
 
-    // Al montar el componente, si estamos editando un empleado, cargamos sus datos
     useEffect(() => {
         if (isEditing && editingEmployee) {
             setEmployee(editingEmployee);
         }
     }, [isEditing, editingEmployee]);
 
-    // Función para obtener la hora actual en formato 24 horas
     const getCurrentTime = () => {
         return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); // Formato 24 horas sin segundos
     };
 
-    // Al montar el componente, establecer la hora de entrada automáticamente si no estamos editando
     useEffect(() => {
         if (!isEditing) {
             const currentTime = getCurrentTime();
@@ -55,7 +52,7 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
                 onChange={handleChange}
                 placeholder="Nombre y Apellidos"
                 required
-                readOnly={isEditing} // No permitir modificar nombre mientras se edita
+                readOnly={isEditing}
             />
             <input
                 type="text"
@@ -64,7 +61,7 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
                 onChange={handleChange}
                 placeholder="CI"
                 required
-                readOnly={isEditing} // No permitir modificar CI mientras se edita
+                readOnly={isEditing}
             />
             <input
                 type="text"
@@ -73,13 +70,13 @@ const EmployeeForm = ({ addEmployee, editingEmployee, updateEmployee, isEditing 
                 onChange={handleChange}
                 placeholder="Departamento"
                 required
-                readOnly={isEditing} // No permitir modificar Departamento mientras se edita
+                readOnly={isEditing}
             />
             <input
                 type="text"
                 name="checkIn"
                 value={employee.checkIn}
-                readOnly // El campo de entrada de hora sigue siendo no editable
+                readOnly
             />
             <input
                 type="time"
