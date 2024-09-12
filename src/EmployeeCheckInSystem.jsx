@@ -3,6 +3,7 @@ import EmployeeForm from './EmployeeForm';
 import SearchBar from './SearchBar';
 import EmployeeList from './EmployeeList';
 import ExportToExcel from './ExportToExcel';
+import ManualExportAndDelete from './ManualExportAndDelete';
 
 const EmployeeCheckInSystem = () => {
     const [employees, setEmployees] = useState(() => {
@@ -21,6 +22,10 @@ const EmployeeCheckInSystem = () => {
 
     const addEmployee = (newEmployee) => {
         setEmployees([...employees, newEmployee]);
+    };
+
+    const clearEmployees = () => {
+        setEmployees([]);
     };
 
     const handleEdit = (index) => {
@@ -64,6 +69,10 @@ const EmployeeCheckInSystem = () => {
 
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <ExportToExcel employees={filteredEmployees} />
+
+            {/* Botón manual */}
+            <ManualExportAndDelete employees={employees} clearEmployees={clearEmployees} />
+
 
             <EmployeeList
                 employees={currentEmployees}
