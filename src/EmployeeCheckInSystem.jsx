@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import EmployeeForm from './EmployeeForm';
 import SearchBar from './SearchBar';
 import EmployeeList from './EmployeeList';
@@ -68,13 +68,13 @@ const EmployeeCheckInSystem = () => {
                 updateEmployee={updateEmployee}
                 isEditing={editingEmployeeIndex !== null}
             />
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-
             <div className="button-container">
                 <UploadExcel setEmployees={setEmployees}/>
                 <ManualExportAndDelete employees={employees} clearEmployees={clearEmployees}/>
                 <ExportToExcel employees={filteredEmployees}/>
             </div>
+
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
             <EmployeeList
                 employees={currentEmployees}
