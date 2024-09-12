@@ -19,7 +19,7 @@ const ManualExportAndDelete = ({ employees, clearEmployees }) => {
 
     return (
         <button onClick={handleExportAndDelete}>
-            Exportar y Eliminar Datos
+             Limpiar Tabla
         </button>
     );
 };

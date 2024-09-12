@@ -1,0 +1,10 @@
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+}

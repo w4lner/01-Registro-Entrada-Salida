@@ -4,6 +4,8 @@ import SearchBar from './SearchBar';
 import EmployeeList from './EmployeeList';
 import ExportToExcel from './ExportToExcel';
 import ManualExportAndDelete from './ManualExportAndDelete';
+import UploadExcel from './UploadExcel';
+import './Button.css';
 
 const EmployeeCheckInSystem = () => {
     const [employees, setEmployees] = useState(() => {
@@ -66,13 +68,13 @@ const EmployeeCheckInSystem = () => {
                 updateEmployee={updateEmployee}
                 isEditing={editingEmployeeIndex !== null}
             />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <ExportToExcel employees={filteredEmployees} />
-
-            {/* Botón manual */}
-            <ManualExportAndDelete employees={employees} clearEmployees={clearEmployees} />
-
+            <div className="button-container">
+                <UploadExcel setEmployees={setEmployees}/>
+                <ManualExportAndDelete employees={employees} clearEmployees={clearEmployees}/>
+                <ExportToExcel employees={filteredEmployees}/>
+            </div>
 
             <EmployeeList
                 employees={currentEmployees}
