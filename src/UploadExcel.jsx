@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as XLSX from 'xlsx';
 
 const UploadExcel = ({ setEmployees }) => {
-    const [warningMessage, setWarningMessage] = useState('');
-
     const expectedColumns = ['name', 'ci', 'department', 'checkIn', 'checkOut'];
 
     const handleFileUpload = (e) => {
@@ -16,11 +14,14 @@ const UploadExcel = ({ setEmployees }) => {
                 const data = new Uint8Array(event.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
 
+                // Suponiendo que los datos están en la primera hoja del archivo Excel
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
 
+                // Convertir la hoja de Excel a un array de objetos JSON
                 const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
+                // Verificar las columnas del archivo
                 if (jsonData.length > 0) {
                     const fileColumns = Object.keys(jsonData[0]);
 
@@ -28,12 +29,12 @@ const UploadExcel = ({ setEmployees }) => {
 
                     if (isValid) {
                         setEmployees((prevEmployees) => [...prevEmployees, ...jsonData]);
-                        setWarningMessage('');
                     } else {
-                        setWarningMessage('El archivo no tiene el formato correcto. Asegúrese de que las columnas sean: ' + expectedColumns.join(', '));
+                        // Mostrar una alerta si el formato no es correcto
+                        window.alert(`El archivo no tiene el formato correcto. Asegúrese de que las columnas sean: ${expectedColumns.join(', ')}`);
                     }
                 } else {
-                    setWarningMessage('El archivo está vacío o no tiene datos válidos.');
+                    window.alert('El archivo está vacío o no tiene datos válidos.');
                 }
             };
 
@@ -48,7 +49,6 @@ const UploadExcel = ({ setEmployees }) => {
                 accept=".xlsx, .xls"
                 onChange={handleFileUpload}
             />
-            {warningMessage && <p style={{ color: 'red' }}>{warningMessage}</p>}
         </div>
     );
 };
